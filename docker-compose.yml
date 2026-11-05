@@ -1,0 +1,37 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: mazzi
+      POSTGRES_PASSWORD: mazzi_dev_password
+      POSTGRES_DB: mazzi
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mazzi -d mazzi"]
+      interval: 5s
+      retries: 10
+
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      DATABASE_URL: postgres://mazzi:mazzi_dev_password@postgres:5432/mazzi
+      JWT_ACCESS_SECRET: dev-only-access-secret-change-me-0000
+      JWT_REFRESH_SECRET: dev-only-refresh-secret-change-me-0000
+      DERIV_APP_ID: ${DERIV_APP_ID:-}
+      DERIV_TOKEN: ${DERIV_TOKEN:-}
+      TRADING_MODE: ALERT_ONLY
+    ports:
+      - "127.0.0.1:3000:3000"
+
+volumes:
+  pgdata:

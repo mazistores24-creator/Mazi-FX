@@ -1,0 +1,20 @@
+{
+  "name": "@mazzi/server",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./src/server.ts",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": "tsx src/server.ts",
+    "migrate": "tsx ../../db/migrate.ts"
+  },
+  "dependencies": {
+    "@mazzi/core": "*",
+    "@mazzi/deriv-adapter": "*",
+    "@mazzi/strategy": "*",
+    "@mazzi/risk": "*",
+    "@mazzi/scanner": "*",
+    "@mazzi/backtest": "*",
+    "@mazzi/quant": "*"
+  }
+}

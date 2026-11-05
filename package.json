@@ -1,0 +1,44 @@
+{
+  "name": "mazzi",
+  "version": "0.1.0",
+  "private": true,
+  "description": "MAZZI trading intelligence platform (Phase 0 and Phase 1)",
+  "engines": {
+    "node": ">=20"
+  },
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "typecheck": "tsc -b tsconfig.json",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "load:test": "node scripts/offline-load.mjs",
+    "endurance:test": "node scripts/offline-endurance.mjs",
+    "restore:drill": "bash scripts/postgres-restore-drill.sh",
+    "dev": "npm run dev -w apps/server"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^20.19.43",
+    "@types/pg": "^8.23.1",
+    "@types/ws": "^8.18.2",
+    "eslint": "^9.39.5",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.72.0",
+    "vitest": "^2.1.9"
+  },
+  "dependencies": {
+    "@fastify/jwt": "^8.0.1",
+    "argon2": "^0.41.1",
+    "fastify": "^4.29.1",
+    "jsonwebtoken": "^9.0.3",
+    "pg": "^8.23.1",
+    "pino": "^9.14.0",
+    "ws": "^8.22.0",
+    "zod": "^3.25.76"
+  }
+}
