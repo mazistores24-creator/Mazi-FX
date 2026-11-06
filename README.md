@@ -85,6 +85,10 @@ Phase 9 adds a lightweight single-page control room at `/` and an authenticated 
 
 Dashboard providers are wired as read-only adapters to scanner, risk, paper/backtest, and execution package snapshots. The route retains bearer authentication and tests continue to use local fakes with no live network calls.
 
+## Historical replay
+
+`npm run replay:deriv -- --from 2025-01-01 --to 2025-12-31 --symbol frxEURUSD` fetches public Deriv H4, D1, and M5 candles in bounded chunks and runs the existing offline replay. Set `DERIV_APP_ID` to a numeric application id. This uses no account authorization or Deriv token and never submits orders. The report records assumptions and candle gaps. EURUSD tick value, account-currency conversion, and historical spread, commission, slippage, and swap are not inferred from price candles, so position sizing is vetoed until independently verified sizing inputs and cost assumptions are supplied.
+
 ## Phase 10: production readiness
 
 Phase 10 adds a source-level security review and a readiness checklist at `docs/production-readiness.md`, an offline-first PostgreSQL schema backup/restore drill at `scripts/postgres-restore-drill.sh`, plus deterministic CPU-only load and endurance scripts at `scripts/offline-load.mjs` and `scripts/offline-endurance.mjs`. Database execution in the restore drill requires explicit opt-in and a localhost URL. The offline scripts make no service calls and do not establish production capacity. Live Deriv demo connectivity, real Telegram token delivery, and live PostgreSQL migrations/backup/restore remain unverified; see the checklist for the full release gate and security gaps.

@@ -18,6 +18,7 @@
     "load:test": "node scripts/offline-load.mjs",
     "endurance:test": "node scripts/offline-endurance.mjs",
     "restore:drill": "bash scripts/postgres-restore-drill.sh",
+    "replay:deriv": "tsx scripts/replay-deriv.ts",
     "dev": "npm run dev -w apps/server"
   },
   "devDependencies": {
