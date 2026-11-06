@@ -25,7 +25,7 @@ async function main(): Promise<void> {
     await client.connect();
     const candles = {} as Record<"H4" | "D1" | "M5", Candle[]>;
     for (const timeframe of ["H4", "D1", "M5"] as const) {
-      process.stdout.write(`fetching ${symbol} ${timeframe} ${from} through ${to} UTC\\n`);
+      process.stdout.write(`fetching ${symbol} ${timeframe} ${from} through ${to} UTC\n`);
       candles[timeframe] = await client.fetchCandles(symbol, timeframe, from, to);
     }
     if (["H4", "D1", "M5"].some(tf => candles[tf as "H4" | "D1" | "M5"].length === 0)) throw new Error("NO_CANDLES_RETURNED_FOR_ONE_OR_MORE_TIMEFRAMES");
@@ -40,10 +40,10 @@ async function main(): Promise<void> {
       caveats: ["offline replay only; no account authorization or order submission", "risk sizing is intentionally vetoed because public data does not supply verified tick value or EUR-to-account-currency conversion", "zero costs used because verified historical spread, commission, slippage, and swap data were not supplied", "OHLC bars do not reveal intrabar ordering beyond stop-touch handling"],
     };
     await mkdir(dirname(outputPath), { recursive: true });
-    await writeFile(outputPath, `${JSON.stringify(report, null, 2)}\\n`, "utf8");
+    await writeFile(outputPath, `${JSON.stringify(report, null, 2)}\n`, "utf8");
     const saved = JSON.parse(await readFile(outputPath, "utf8")) as typeof report;
     if (saved.symbol !== symbol || saved.fromUtc !== from || saved.toUtc !== to || startMs >= endExclusiveMs) throw new Error("REPORT_PERSISTENCE_CHECK_FAILED");
-    process.stdout.write(`${JSON.stringify({ outputPath, symbol, fromUtc: from, toUtc: to, timeframeCounts: saved.timeframeCounts, stats: saved.stats, rejectedReasons: saved.rejectedReasons, candleQuality: Object.fromEntries((["H4", "D1", "M5"] as const).map(tf => [tf, { gaps: saved.dataQuality[tf].gaps.length, duplicates: saved.dataQuality[tf].duplicates, misaligned: saved.dataQuality[tf].misaligned.length }])) }, null, 2)}\\n`);
+    process.stdout.write(`${JSON.stringify({ outputPath, symbol, fromUtc: from, toUtc: to, timeframeCounts: saved.timeframeCounts, stats: saved.stats, rejectedReasons: saved.rejectedReasons, candleQuality: Object.fromEntries((["H4", "D1", "M5"] as const).map(tf => [tf, { gaps: saved.dataQuality[tf].gaps.length, duplicates: saved.dataQuality[tf].duplicates, misaligned: saved.dataQuality[tf].misaligned.length }])) }, null, 2)}\n`);
   } finally {
     await client.close();
   }
