@@ -23,7 +23,7 @@ function chunkRanges(startMs: number, endExclusiveMs: number, granularity: numbe
 export class DerivHistoryClient {
   private socket?: WebSocket;
   private requestId = 0;
-  constructor(private readonly appId: string) { if (!/^\d+$/.test(appId)) throw new Error("DERIV_APP_ID must be numeric"); }
+  constructor(private readonly appId: string) { if (!/^[A-Za-z0-9_-]+$/.test(appId)) throw new Error("DERIV_APP_ID must be a non-empty application ID using letters, numbers, hyphens, or underscores"); }
   async connect(): Promise<void> {
     if (this.socket) return;
     const socket = new WebSocket(`${WS_URL}?app_id=${encodeURIComponent(this.appId)}`); this.socket = socket;

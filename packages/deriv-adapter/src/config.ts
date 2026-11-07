@@ -3,10 +3,10 @@ export interface DerivConfig {
   endpoint: string;
 }
 
-/** Deriv app ids are numeric. The owner supplies DERIV_APP_ID. Demo only. */
+/** Deriv documents app_id as a registered application identifier, not numeric-only. */
 export function assertDerivAppId(appId: string): void {
-  if (!/^\d+$/.test(appId)) {
-    throw new Error("DERIV_APP_ID must be numeric");
+  if (!/^[A-Za-z0-9_-]+$/.test(appId)) {
+    throw new Error("DERIV_APP_ID must be a non-empty application ID using letters, numbers, hyphens, or underscores");
   }
 }
 

@@ -16,9 +16,10 @@ describe("reconnection backoff", () => {
 });
 
 describe("config guards", () => {
-  it("accepts a numeric app id and rejects a non-numeric one", () => {
+  it("accepts numeric and alphanumeric app ids, while rejecting unsafe values", () => {
     expect(() => assertDerivAppId("1089")).not.toThrow();
-    expect(() => assertDerivAppId("abc")).toThrow("DERIV_APP_ID must be numeric");
+    expect(() => assertDerivAppId("abc123")).not.toThrow();
+    expect(() => assertDerivAppId("app id")).toThrow("application ID");
   });
 
   it("accepts only wss://ws.derivws.com", () => {

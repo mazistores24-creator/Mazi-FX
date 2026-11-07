@@ -1,7 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { utcDateRange } from "../src/deriv-history";
+import { DerivHistoryClient, utcDateRange } from "../src/deriv-history";
 
 describe("Deriv replay date handling", () => {
+  it("accepts alphanumeric app ids for the read-only replay client", () => {
+    expect(() => new DerivHistoryClient("myApp2025")).not.toThrow();
+    expect(() => new DerivHistoryClient("app id")).toThrow("application ID");
+  });
   it("covers inclusive UTC date bounds", () => {
     const range = utcDateRange("2025-01-01", "2025-12-31");
     expect(new Date(range.startMs).toISOString()).toBe("2025-01-01T00:00:00.000Z");
